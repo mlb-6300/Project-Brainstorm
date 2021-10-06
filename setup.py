@@ -13,3 +13,13 @@ conn.execute(
             )
     """
 )
+
+conn.execute(
+    """
+            CREATE TABLE Whiteboards(
+                WBName VARCHAR(40),
+                Username VARCHAR(40),
+                Timestamp DATETIME
+            )
+    """
+)
