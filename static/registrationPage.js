@@ -1,3 +1,4 @@
+
 function togglePasswordVisibility(elementId)
 {
     const x = document.getElementById(elementId);
