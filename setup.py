@@ -1,3 +1,5 @@
+# creates database and tables for user data and saved whiteboards
+
 import sqlite3
 
 conn = sqlite3.connect('userData.db')

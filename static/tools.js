@@ -9,15 +9,18 @@ var fill_value = true;
 var stroke_value = false;
 var canvas_data = {"pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": []}
                         
+// function for changing color value based on palette 
 function color(color_value){
     ctx.strokeStyle = color_value;
     ctx.fillStyle = color_value;
 }    
         
+// increases width of the line tool
 function add_pixel(){
     ctx.lineWidth += 1;
 }
         
+// decreases width of the line tool
 function reduce_pixel(){
     if (ctx.lineWidth == 1){
         ctx.lineWidth = 1;
@@ -27,25 +30,26 @@ function reduce_pixel(){
     }
 }
         
+// simple color fill
 function fill(){
     fill_value = true;
     stroke_value = false;
 }
         
+// outline color of an object
 function outline(){
     fill_value = false;
     stroke_value = true;
 }
                
+// resets canvas and values for all tools
 function reset(){
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     canvas_data = { "pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": [] }
 }
         
-// pencil tool
-        
+// pencil tool - contains nested functions for mouse movements using built in event handlers 
 function pencil(){
-        
     canvas.onmousedown = function(e){
         curX = e.clientX - canvas.offsetLeft;
         curY = e.clientY - canvas.offsetTop;
@@ -81,9 +85,7 @@ function pencil(){
 }
         
 // line tool
-        
 function line(){
-           
     canvas.onmousedown = function (e){
         img = ctx.getImageData(0, 0, width, height);
         prevX = e.clientX - canvas.offsetLeft;
@@ -115,9 +117,7 @@ function line(){
 }
         
 // rectangle tool
-        
 function rectangle(){
-            
     canvas.onmousedown = function (e){
         img = ctx.getImageData(0, 0, width, height);
         prevX = e.clientX - canvas.offsetLeft;
@@ -149,9 +149,7 @@ function rectangle(){
 }
         
 // circle tool
-        
 function circle(){
-            
     canvas.onmousedown = function (e){
         img = ctx.getImageData(0, 0, width, height);
         prevX = e.clientX - canvas.offsetLeft;
@@ -185,9 +183,7 @@ function circle(){
 }
         
 // eraser tool
-        
 function eraser(){
-    
     canvas.onmousedown = function(e){
         curX = e.clientX - canvas.offsetLeft;
         curY = e.clientY - canvas.offsetTop;

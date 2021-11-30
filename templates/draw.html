@@ -3,6 +3,7 @@
     {% block content %}
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <!-- loading pencil tool on startup - user can begin drawing immediately without selecting tool -->
     <body onload="pencil()">
         <p><table>
             <tr>
@@ -38,6 +39,7 @@
                 </td>
             </tr>
         </table></p>
+        <!-- color palette -->
         <fieldset id="colorset">
             <table>
                 <tr>
