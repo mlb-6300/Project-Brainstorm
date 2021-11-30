@@ -1,5 +1,57 @@
-<html>
-    <body>
-        <h1>Register an Account</h1>
-    </body>
+<html lang="el">
+
+    <script type="text/javascript" src = "/static/registrationPage.js"></script>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+    <h1>Project-Brainstorm User Registration</h1>
+
+Please enter your new username and password for Project-Brainstorm below:
+    <br>
+    <form action= {{ url_for('doRegistration') }} method='POST'>
+        First Name
+        <label>
+            <input type="text" name="firstName" maxlength="30">
+        </label>
+        <br>
+        Last Name
+        <label>
+            <input type="text" name="lastName" maxlength="30">
+        </label>
+        <br>
+        Date of Birth
+        <label>
+            <input type="date" name="DOB">
+        </label>
+        <br>
+        Gender
+        <label>
+            <select name = "gender">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+                <option value="NA">Prefer Not to Say</option>
+            </select>
+        </label>
+        <br>
+        Username
+        <label>
+            <input type="text" name="userName"maxlength="40">
+        </label>
+        <br>
+        Password
+        <label for="password"></label><input type="password" name="password" id="password" maxlength="40">
+        <br>
+        Confirm Password
+        <label for="confirmPassword"></label><input type="password" name="confirmPassword" id="confirmPassword" maxlength="40">
+        <br>
+        <label>
+            <input type="checkbox" onclick="togglePasswordVisibility('confirmPassword'),
+                        togglePasswordVisibility('password')">
+        </label> Show Password
+        <br>
+        <input type="submit" name="submit">
+    </form>
+
+   <a href="/">Back to Home</a>
+
 </html>

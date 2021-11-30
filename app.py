@@ -1,10 +1,12 @@
+from datetime import datetime
+
 from flask import Flask, render_template, request
 from datetime import datetime
 import sqlite3 as sql
-from cryptography.fernet import Fernet
+
+# from cryptography.fernet import Fernet
 
 app = Flask(__name__)
-
 
 # fernet will be used to encrypt the password
 # look up documentation, its pretty simple tbh
@@ -15,41 +17,40 @@ f = Fernet(key)
 @app.route('/')
 def home():
     return render_template('index.html')
-
-# account registration page
+  
 @app.route('/register')
 def register():
     return render_template('register.html')
 
-# additional function and route for adding a new user
-@app.route('/adduser', methods = ['POST', 'GET'])
-def addUser():
+@app.route('/doRegistration', methods=['POST', 'GET'])
+def doRegistration():
     if request.method == 'POST':
         try:
-            user = request.form['Username']
-            passwd = f.encrypt(request.form['Password']) 
-            dt = datetime.now()
+            fn = request.form['firstName']
+            ln = request.form['lastName']
             dob = request.form['DOB']
-            gend = request.form['Gender']
+            un = request.form['userName']
+            pw = request.form['password']
+            gd = request.form['gender']
 
-            conn = sql.connect('userData.db')
-            cur = conn.cursor()
+            with sql.connect("userData.db") as con:
+                cur = con.cursor()
 
-            cur.execute("SELECT Username FROM Users WHERE Username = ?", (user,))
-            check = cur.fetchall()
+                cur.execute("""
+                INSERT INTO Users 
+                (Username, Password, Created, First_Name, Last_Name, DOB, Gender)
+                VALUES (?,?,?,?,?,?,?)""", (un, pw, datetime.now(), fn, ln, dob, gd))
 
-            if not check:
-                cur.execute("INSERT INTO Users VALUES(?, ?, ?, ?, ?)", (user, passwd, dt, dob, gend))
-                conn.commit()
-                conn.close()
-            else:
-                # need to return error message of some kind. maybe return a render template of some error.html page
-                # stating that the username already exists
-                print("Username already exists")
+        except Exception as e:
+            print(e)
+        finally:
+            return home()
 
-        except:
-            # need to add stuff here
-            pass
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
 
 # page for drawing 
 @app.route('/draw', methods=['GET', 'POST'])
@@ -61,5 +62,6 @@ def draw():
         # set this up to save to a database, but do not return a save file to the user for download
         return 
         
+
 if __name__ == '__main__':
     app.run('localhost', debug=True)
