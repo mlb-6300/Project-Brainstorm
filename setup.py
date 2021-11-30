@@ -1,3 +1,5 @@
+# creates database and tables for user data and saved whiteboards
+
 import sqlite3
 
 conn = sqlite3.connect('userData.db')
@@ -12,6 +14,8 @@ conn.execute(
                 Last_Name VARCHAR (30),
                 DOB DATE,
                 Gender CHAR(1)
+
+                PRIMARY KEY (Username)
             )
     """
 )
