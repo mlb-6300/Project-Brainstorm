@@ -10,6 +10,8 @@ conn.execute(
                 Created DATETIME,
                 DOB DATE,
                 Gender CHAR(1)
+
+                PRIMARY KEY (Username)
             )
     """
 )
