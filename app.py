@@ -4,7 +4,7 @@ from flask import Flask, render_template, request
 from datetime import datetime
 import sqlite3 as sql
 
-# from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet
 
 app = Flask(__name__)
 
