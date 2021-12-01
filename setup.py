@@ -13,7 +13,7 @@ conn.execute(
                 First_Name VARCHAR(30),
                 Last_Name VARCHAR (30),
                 DOB DATE,
-                Gender CHAR(1),
+                Gender VARCHAR(25),
 
                 PRIMARY KEY (Username)
             )
@@ -26,7 +26,7 @@ conn.execute(
                 WBName VARCHAR(40),
                 Username VARCHAR(40),
                 Timestamp DATETIME,
-                FOREIGN KEY (Username) REFERENCES Users (Username)
+                FOREIGN KEY (Username) REFERENCES Users(Username)
             )
     """
 )

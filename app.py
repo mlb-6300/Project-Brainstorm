@@ -1,50 +1,43 @@
 from datetime import datetime
 
 from flask import Flask, render_template, request
-from datetime import datetime
-import sqlite3 as sql
-
-from cryptography.fernet import Fernet
+import database_mangement as db_manger
+from register_user import registerUserForm
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'good_ol_secret_key'
+
+
+
+
+
+# import cryptography.fernet
+
 
 # fernet will be used to encrypt the password
 # look up documentation, its pretty simple tbh
-key = Fernet.generate_key()
-f = Fernet(key)
+# key = cryptography.fernet.Fernet.generate_key()
+# f = cryptography.fernet.Fernet(key)
 
 # main page of application
 @app.route('/')
 def home():
     return render_template('index.html')
-  
-@app.route('/register')
+
+
+@app.route('/register', methods=('GET', 'POST'))
 def register():
-    return render_template('register.html')
-
-@app.route('/doRegistration', methods=['POST', 'GET'])
-def doRegistration():
-    if request.method == 'POST':
-        try:
-            fn = request.form['firstName']
-            ln = request.form['lastName']
-            dob = request.form['DOB']
-            un = request.form['userName']
-            pw = request.form['password']
-            gd = request.form['gender']
-
-            with sql.connect("userData.db") as con:
-                cur = con.cursor()
-
-                cur.execute("""
-                INSERT INTO Users 
-                (Username, Password, Created, First_Name, Last_Name, DOB, Gender)
-                VALUES (?,?,?,?,?,?,?)""", (un, pw, datetime.now(), fn, ln, dob, gd))
-
-        except Exception as e:
-            print(e)
-        finally:
-            return home()
+    form = registerUserForm()
+    if form.validate_on_submit():
+        fn = form['first_name'].data
+        ln = form['last_name'].data
+        dob = form['dob'].data
+        un = form['username'].data
+        pw = form['password'].data
+        gd = form['gender'].data
+        db_manger.insert_user(un, pw, fn, ln, dob, gd)
+        return render_template('index.html')
+    return render_template('register.html', form=form)
 
 
 @app.route('/login')
@@ -60,8 +53,8 @@ def draw():
     if request.method == 'POST':
         # do nothing for now, in tutorial this is for saving the drawing as a file and inserting into a database
         # set this up to save to a database, but do not return a save file to the user for download
-        return 
-        
+        return
+
 
 if __name__ == '__main__':
     app.run('localhost', debug=True)
