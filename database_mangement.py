@@ -18,7 +18,7 @@ def get_all_users():
     con = sql.connect('userData.db')
     cur = con.cursor()
     cur.execute("""
-    SELECT Username, Password FROM Users""")
+    SELECT id, Username, Password FROM Users""")
     users = cur.fetchall()
     con.close()
     return users
@@ -29,6 +29,16 @@ def get_unique_user(username):
     cur = con.cursor()
     cur.execute("""
         SELECT * FROM Users where Username = (?)""", (username,))
+    user = cur.fetchall()
+    con.close()
+    return user
+
+
+def get_unique_user_by_id(id):
+    con = sql.connect('userData.db')
+    cur = con.cursor()
+    cur.execute("""
+        SELECT * FROM Users where id = (?)""", (id,))
     user = cur.fetchall()
     con.close()
     return user

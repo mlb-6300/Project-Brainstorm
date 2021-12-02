@@ -1,13 +1,36 @@
-<!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <h1>Login</h1>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <h1>Login</h1>
+    </head>
 <body>
+<div class = "container">
+     <p>Please Enter Your Username and Password Below:</p>
+    <br>
+    {% for field, errors in form.errors.items() %}
+        <p style="color: red">{{ ', '.join(errors) }}</p>
+    {% endfor %}
+    <br>
+    <form class="form-horizontal" method="POST" action=" {{ url_for('login') }}">
+         {{ form.csrf_token() }}
+        <div class="form-group">
+            {{ form.username.label }}
+            {{ form.username(class="form-control") }}
+        </div>
+         <div class="form-group">
+             {{ form.password.label }}
+             {{ form.password(class="form-control") }}
+        </div>
+         <div class="form-group">
+            {{ form.submit.label }}
+            {{ form.submit }}
+        </div>
+    </form>
     <b1><a href="/">Click Here to Go Home</a></b1>
     <br>
     <b1><a href="/register">Click Here to Register</a></b1>
+</div>
+
 </body>
 </html>

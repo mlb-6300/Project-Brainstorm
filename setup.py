@@ -7,15 +7,14 @@ conn = sqlite3.connect('userData.db')
 conn.execute(
     """
             CREATE TABLE IF NOT EXISTS Users(
-                Username VARCHAR(40),
-                Password VARCHAR(40),
-                Created DATETIME,
-                First_Name VARCHAR(30),
-                Last_Name VARCHAR (30),
-                DOB DATE,
-                Gender VARCHAR(25),
-
-                PRIMARY KEY (Username)
+                id       INTEGER PRIMARY KEY AUTOINCREMENT,
+                Username VARCHAR(40) UNIQUE NOT NULL,
+                Password VARCHAR(40) NOT NULL,
+                Created DATETIME NOT NULL,
+                First_Name VARCHAR(30) NOT NULL,
+                Last_Name VARCHAR (30) NOT NULL,
+                DOB DATE NOT NULL,
+                Gender VARCHAR(25) NOT NULL
             )
     """
 )
@@ -23,9 +22,10 @@ conn.execute(
 conn.execute(
     """
             CREATE TABLE IF NOT EXISTS Whiteboards(
-                WBName VARCHAR(40),
-                Username VARCHAR(40),
-                Timestamp DATETIME,
+                id     INTEGER PRIMARY KEY AUTOINCREMENT,
+                WBName VARCHAR(40)NOT NULL,
+                Username VARCHAR(40) NOT NULL,
+                Timestamp DATETIME NOT NULL,
                 FOREIGN KEY (Username) REFERENCES Users(Username)
             )
     """
