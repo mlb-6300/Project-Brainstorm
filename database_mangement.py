@@ -41,7 +41,7 @@ def get_unique_user(username):
     con = sql.connect('userData.db')
     cur = con.cursor()
     cur.execute("""
-        SELECT * FROM Users where Username = (?)""", (username,))
+        SELECT * FROM Users where UPPER(Username) = (?)""", (str.upper(username),))
     user = cur.fetchall()
     con.close()
     return user

@@ -122,7 +122,8 @@ def edit_profile():
             ln = form['last_name'].data
             dob = form['dob'].data
             gd = form['gender'].data
-            if new_pw == '':
+            # check for empty password string
+            if check_password_hash(new_pw, ''):
                 db_manger.update_user_by_id(g.user[0], g.user[2], fn, ln, dob, gd)
             else:
                 db_manger.update_user_by_id(g.user[0], new_pw, fn, ln, dob, gd)
