@@ -1,4 +1,17 @@
 <html lang="en">
+    <script>
+        window.addEventListener ("load", function () {
+            var checkbox = document.getElementById ('{{form.toggle_pw.id}}');
+            var x = document.getElementById ('{{form.password.id}}');
+            checkbox.addEventListener ('change', function () {
+                if (this.checked) {
+                    x.type = 'text';
+                } else {
+                    x.type = 'password';
+                }
+            });
+        })
+    </script>
     <head>
         <meta charset="UTF-8">
         <title>Login</title>
@@ -8,8 +21,8 @@
 <div class = "container">
      <p>Please Enter Your Username and Password Below:</p>
     <br>
-    {% for field, errors in form.errors.items() %}
-        <p style="color: red">{{ ', '.join(errors) }}</p>
+    {% for message in get_flashed_messages() %}
+        <p style="color: red">{{ message }}</p>
     {% endfor %}
     <br>
     <form class="form-horizontal" method="POST" action=" {{ url_for('login') }}">
@@ -21,6 +34,10 @@
          <div class="form-group">
              {{ form.password.label }}
              {{ form.password(class="form-control") }}
+        </div>
+        <div class="form-group">
+             {{ form.toggle_pw.label }}
+             {{ form.toggle_pw(class="form-control") }}
         </div>
          <div class="form-group">
             {{ form.submit }}

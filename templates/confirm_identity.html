@@ -1,4 +1,17 @@
 <html>
+    <script>
+        window.addEventListener ("load", function () {
+            var checkbox = document.getElementById ('{{form.toggle_pw.id}}');
+            var x = document.getElementById ('{{form.password.id}}');
+            checkbox.addEventListener ('change', function () {
+                if (this.checked) {
+                    x.type = 'text';
+                } else {
+                    x.type = 'password';
+                }
+            });
+        })
+    </script>
     <h1>Confirm Identity {{ g.user[1] }}</h1>
     <br>
     {% for field, errors in form.errors.items() %}
@@ -10,6 +23,10 @@
         <div class="form-group">
              {{ form.password.label }}
              {{ form.password(class="form-control") }}
+        </div>
+        <div class="form-group">
+             {{ form.toggle_pw.label }}
+             {{ form.toggle_pw(class="form-control") }}
         </div>
          <div class="form-group">
             {{ form.submit }}

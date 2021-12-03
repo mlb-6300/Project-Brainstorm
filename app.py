@@ -1,8 +1,12 @@
 from datetime import datetime
 
-from flask import Flask, render_template, request, session, redirect, url_for, g
+from flask import Flask, render_template, request, session, redirect, url_for, g, flash
+from werkzeug.datastructures import MultiDict
+from flask_wtf import csrf
+
 import database_mangement as db_manger
 from confirmIdentity import confirmIdentity
+from edit_profile_form import edit_profile_form
 from register_user import registerUserForm
 from login import login_form
 from cryptography.fernet import Fernet
@@ -11,11 +15,14 @@ import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'good_ol_secret_key'
+# makes sure CSRF doesnt go out of context
+csrf.CSRFProtect(app)
 
 # fernet will be used to encrypt the password
 # look up documentation, its pretty simple tbh
 key = Fernet.generate_key()
 f = Fernet(key)
+
 
 @app.before_request
 def before_request():
@@ -71,6 +78,7 @@ def login():
             # redirect to profile page
             return redirect(url_for('profile'))
         # if no user, redirect back to login page
+        flash("Username or Password invalid, please try again.")
         return redirect(url_for('login'))
     # if method is not post, go to login.hmtl
     return render_template('login.html', form=form)
@@ -104,9 +112,17 @@ def confirm_identity():
     return render_template('confirm_identity.html', g=g, form=form)
 
 
-@app.route('/edit_profile')
+@app.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
-    return render_template("edit_profile.html")
+    # setting up default fields for user data
+    form = edit_profile_form(
+        formdata=MultiDict({'first_name': g.user[4], 'last_name': g.user[5], 'dob': g.user[6], 'gender': g.user[7]}))
+    if form.validate_on_submit():
+        # stuff to update the database
+
+        return redirect(url_for('profile'))
+
+    return render_template("edit_profile.html", form=form)
 
 
 # page for drawing
@@ -115,14 +131,12 @@ def draw():
     if request.method == 'GET':
         return render_template('draw.html')
     if request.method == 'POST':
-        print("in app / draw")
         id = str(uuid.uuid4())
         wbname = request.form['wb_name']
         data = request.form['save_cdata']
         canvas_image = request.form['save_image']
-        user = g.user[1]
 
-        db_manger.insert_drawing(id, wbname, user, data, canvas_image)
+        # db_manger.insert_drawing(id, wbname, user, data, canvas_image)
 
         return redirect(url_for('index'))
 
@@ -139,3 +153,4 @@ def load():
 if __name__ == '__main__':
     app.run('localhost', debug=True)
 
+# (id, WBName, Username, Timestamp, data, canvas_image)

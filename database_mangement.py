@@ -53,3 +53,17 @@ def get_unique_user_by_id(id):
     user = cur.fetchall()
     con.close()
     return user
+
+def update_user_by_id(id, pw, fn, ln, dob, gd):
+    con = sql.connect('userData.db')
+    cur = con.cursor()
+    cur.execute("""
+        UPDATE Users 
+        SET Password = (?), 
+        First_Name = (?), 
+        Last_Name = (?),
+        DOB = (?),
+        Gender = (?)
+        WHERE id = (?);""", (pw, fn, ln, dob, gd, id))
+    con.commit()
+
