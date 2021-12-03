@@ -2,6 +2,7 @@ from datetime import datetime
 
 from flask import Flask, render_template, request, session, redirect, url_for, g
 import database_mangement as db_manger
+from confirmIdentity import confirmIdentity
 from register_user import registerUserForm
 from login import login_form
 from cryptography.fernet import Fernet
@@ -16,14 +17,14 @@ app.config['SECRET_KEY'] = 'good_ol_secret_key'
 key = Fernet.generate_key()
 f = Fernet(key)
 
-'''
+
 @app.before_request
 def before_request():
     g.user = None
     if 'user_id' in session:
         user = db_manger.get_unique_user_by_id(session['user_id'])
         g.user = user[0]
-'''
+
 
 # main page of application
 @app.route('/')
@@ -90,7 +91,24 @@ def profile():
     return render_template('profile.html', g=g)
 
 
-# page for drawing 
+@app.route('/confirm_identity', methods=["GET", "POST"])
+def confirm_identity():
+    form = confirmIdentity()
+    if form.validate_on_submit():
+        password = form['password'].data
+        print(password)
+        if g.user[2] != password:
+            return redirect(url_for('confirm_identity'))
+        return redirect(url_for('edit_profile'))
+    return render_template('confirm_identity.html', g=g, form=form)
+
+
+@app.route('/edit_profile')
+def edit_profile():
+    return render_template("edit_profile.html")
+
+
+# page for drawing
 @app.route('/draw', methods=['GET', 'POST'])
 def draw():
     if request.method == 'GET':

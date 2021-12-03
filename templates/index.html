@@ -1,17 +1,17 @@
-<html>
+<html lang="en">
     <head>
        <meta charset="UTF-8">
         <title>Project-Brainstorm</title>
-        <h1>Project Brainstorm</h1>
     </head>
     <body>
-
+        <h1>Project Brainstorm</h1>
         <b1><a href="/register">Click Here to Register</a></b1>
         <br>
         <b1><a href="/login">Click Here to Login</a></b1>
         {% if g.user%}
             <br>
-            Welcome {{ g.user[1] }}
+            <br>
+            Welcome {{ g.user[1] }}!
             <br>
             <a href="/signout">Click Here to Logout</a>
             <br>

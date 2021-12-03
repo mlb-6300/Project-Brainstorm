@@ -1,4 +1,14 @@
 <html lang="en">
-    <p>profile page</p>
-    <p>{{ g.user[1] }}'s profile</p>
+    <h1>{{ g.user[1] }}'s Profile</h1>
+    <p>Profile Information:</p>
+    <p>{{ g.user[1] }}'s First Name: {{ g.user[4] }}</p>
+    <p>{{ g.user[1] }}'s Last Name: {{ g.user[5] }}</p>
+    <p>{{ g.user[1] }}'s Date Of Birth: {{ g.user[6] }}</p>
+    <p>{{ g.user[1] }}'s Gender: {{ g.user[7] }}</p>
+    <p>{{ g.user[1] }}'s Account Created: {{ g.user[3] }}</p>
+    <a href="/">Click Here to go Back Home</a>
+    <br>
+    <a href="/confirm_identity">Click Here to Edit Profile Information</a>
+    <br>
+    <a href="/signout">Log Off</a>
 </html>
