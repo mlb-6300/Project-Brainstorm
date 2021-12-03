@@ -127,7 +127,10 @@ def edit_profile():
             ln = form['last_name'].data
             dob = form['dob'].data
             gd = form['gender'].data
-            db_manger.update_user_by_id(g.user[0], new_pw, fn, ln, dob, gd)
+            if new_pw == '':
+                db_manger.update_user_by_id(g.user[0], g.user[2], fn, ln, dob, gd)
+            else:
+                db_manger.update_user_by_id(g.user[0], new_pw, fn, ln, dob, gd)
             return redirect(url_for('profile'))
         return render_template("edit_profile.html", form=form)
 
