@@ -16,14 +16,15 @@ app.config['SECRET_KEY'] = 'good_ol_secret_key'
 key = Fernet.generate_key()
 f = Fernet(key)
 
-'''
+"""
 @app.before_request
 def before_request():
     g.user = None
     if 'user_id' in session:
         user = db_manger.get_unique_user_by_id(session['user_id'])
         g.user = user[0]
-'''
+"""
+
 
 # main page of application
 @app.route('/')
@@ -96,13 +97,13 @@ def draw():
     if request.method == 'GET':
         return render_template('draw.html')
     if request.method == 'POST':
+
         id = str(uuid.uuid4())
-        user = request.form['username']
         wbname = request.form['wb_name']
         data = request.form['save_cdata']
         canvas_image = request.form['save_image']
 
-        db_manger.insert_drawing(id, wbname, user, data, canvas_image)
+        #db_manger.insert_drawing(id, wbname, user, data, canvas_image)
 
         return redirect(url_for('index'))
         

@@ -218,3 +218,12 @@ function eraser(){
         canvas_data.pencil.push({ "startx": prevX, "starty": prevY, "endx": curX, "endy": curY, "thick": ctx.lineWidth, "color": ctx.strokeStyle });
     }    
 }  
+
+function save(){
+    var wbname = string.getElementById("wbname").value;
+    var data = JSON.stringify(canvas_data);
+    var image = canvas.toDataURL();
+    
+    $.post("/draw", { save_fname: wbname, save_cdata: data, save_image: image });
+    alert(filename + " saved");
+} 
