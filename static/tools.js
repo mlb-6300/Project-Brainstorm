@@ -220,10 +220,12 @@ function eraser(){
 }  
 
 function save(){
-    var wbname = string.getElementById("wbname").value;
+   
+
+    var wbname = document.getElementById("wbname").value;
     var data = JSON.stringify(canvas_data);
     var image = canvas.toDataURL();
-    
-    $.post("/draw", { save_fname: wbname, save_cdata: data, save_image: image });
-    alert(filename + " saved");
+    alert("ATTEMPT TO POST REQUEST TO /DRAW");
+    $.post("/draw", { wb_name: wbname, save_cdata: data, save_image: image });
+    alert(wbname + " saved");
 } 

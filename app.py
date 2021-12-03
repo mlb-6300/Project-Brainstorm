@@ -115,13 +115,14 @@ def draw():
     if request.method == 'GET':
         return render_template('draw.html')
     if request.method == 'POST':
-
+        print("in app / draw")
         id = str(uuid.uuid4())
         wbname = request.form['wb_name']
         data = request.form['save_cdata']
         canvas_image = request.form['save_image']
+        user = g.user[1]
 
-        #db_manger.insert_drawing(id, wbname, user, data, canvas_image)
+        db_manger.insert_drawing(id, wbname, user, data, canvas_image)
 
         return redirect(url_for('index'))
 
@@ -138,4 +139,3 @@ def load():
 if __name__ == '__main__':
     app.run('localhost', debug=True)
 
-# (id, WBName, Username, Timestamp, data, canvas_image)

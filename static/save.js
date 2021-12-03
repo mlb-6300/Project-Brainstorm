@@ -1,7 +1,7 @@
 var canvas = document.getElementById("paint");
 var ctx = canvas.getContext("2d");
 var cvs_data = { "pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": [] }; 
-
+console.log("IN SAVE.JS");
 function hide_canvas (){
     document.getElementById("paint").style.visibility = "hidden";
 }
