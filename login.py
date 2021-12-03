@@ -1,7 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, ValidationError
-import database_mangement as dbm
+from wtforms.validators import DataRequired, Length
 
 
 class login_form(FlaskForm):
