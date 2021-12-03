@@ -1,0 +1,19 @@
+<html>
+    <h1>Confirm Identity {{ g.user[1] }}</h1>
+    <br>
+    {% for field, errors in form.errors.items() %}
+        <p style="color: red">{{ ', '.join(errors) }}</p>
+    {% endfor %}
+    <br>
+    <form class="form-horizontal" method="POST" action="{{ url_for('confirm_identity') }}">
+        {{ form.csrf_token() }}
+        <div class="form-group">
+             {{ form.password.label }}
+             {{ form.password(class="form-control") }}
+        </div>
+         <div class="form-group">
+            {{ form.submit }}
+        </div>
+    </form>
+
+</html>
