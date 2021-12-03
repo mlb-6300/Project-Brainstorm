@@ -23,13 +23,15 @@ def before_request():
     g.user = None
     if 'user_id' in session:
         user = db_manger.get_unique_user_by_id(session['user_id'])
-        g.user = user[0]
+        if len(user) > 0:
+            g.user = user[0]
 
 
 # main page of application
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/register', methods=('GET', 'POST'))
 def register():
@@ -123,14 +125,15 @@ def draw():
         db_manger.insert_drawing(id, wbname, user, data, canvas_image)
 
         return redirect(url_for('index'))
-        
 
-@app.route('/load', methods=['GET','POST'])
+
+@app.route('/load', methods=['GET', 'POST'])
 def load():
     return
-#@app.route('/save', methods=['GET','POST'])
-#def save():
 
+
+# @app.route('/save', methods=['GET','POST'])
+# def save():
 
 
 if __name__ == '__main__':
