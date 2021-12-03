@@ -115,14 +115,23 @@ def confirm_identity():
 @app.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
     # setting up default fields for user data
-    form = edit_profile_form(
-        formdata=MultiDict({'first_name': g.user[4], 'last_name': g.user[5], 'dob': g.user[6], 'gender': g.user[7]}))
-    if form.validate_on_submit():
-        # stuff to update the database
+    if request.method == 'GET':
+        form = edit_profile_form(
+            formdata=MultiDict({'first_name': g.user[4], 'last_name': g.user[5], 'dob': g.user[6], 'gender': g.user[7]}))
+        return render_template("edit_profile.html", form=form)
+    else:
+        form = edit_profile_form(request.form)
+        if form.validate_on_submit():
+            new_pw = form['password'].data
+            fn = form['first_name'].data
+            ln = form['last_name'].data
+            dob = form['dob'].data
+            gd = form['gender'].data
+            db_manger.update_user_by_id(g.user[0], new_pw, fn, ln, dob, gd)
+            return redirect(url_for('profile'))
+        return render_template("edit_profile.html", form=form)
 
-        return redirect(url_for('profile'))
 
-    return render_template("edit_profile.html", form=form)
 
 
 # page for drawing
