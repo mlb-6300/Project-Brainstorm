@@ -22,10 +22,12 @@ conn.execute(
 conn.execute(
     """
             CREATE TABLE IF NOT EXISTS Whiteboards(
-                id     INTEGER PRIMARY KEY AUTOINCREMENT,
+                id     text PRIMARY KEY,
                 WBName VARCHAR(40)NOT NULL,
                 Username VARCHAR(40) NOT NULL,
                 Timestamp DATETIME NOT NULL,
+                data TEXT NOT NULL,
+                canvas_image TEXT NOT NULL, 
                 FOREIGN KEY (Username) REFERENCES Users(Username)
             )
     """

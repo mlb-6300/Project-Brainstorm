@@ -6,27 +6,29 @@ from register_user import registerUserForm
 from login import login_form
 from cryptography.fernet import Fernet
 
+import uuid
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'good_ol_secret_key'
+
 # fernet will be used to encrypt the password
 # look up documentation, its pretty simple tbh
 key = Fernet.generate_key()
 f = Fernet(key)
 
-
+'''
 @app.before_request
 def before_request():
     g.user = None
     if 'user_id' in session:
         user = db_manger.get_unique_user_by_id(session['user_id'])
         g.user = user[0]
-
+'''
 
 # main page of application
 @app.route('/')
 def home():
     return render_template('index.html')
-
 
 @app.route('/register', methods=('GET', 'POST'))
 def register():
@@ -94,10 +96,26 @@ def draw():
     if request.method == 'GET':
         return render_template('draw.html')
     if request.method == 'POST':
-        # do nothing for now, in tutorial this is for saving the drawing as a file and inserting into a database
-        # set this up to save to a database, but do not return a save file to the user for download
-        return
+        id = str(uuid.uuid4())
+        user = request.form['username']
+        wbname = request.form['wb_name']
+        data = request.form['save_cdata']
+        canvas_image = request.form['save_image']
+
+        db_manger.insert_drawing(id, wbname, user, data, canvas_image)
+
+        return redirect(url_for('index'))
+        
+
+@app.route('/load', methods=['GET','POST'])
+def load():
+    return
+#@app.route('/save', methods=['GET','POST'])
+#def save():
+
 
 
 if __name__ == '__main__':
     app.run('localhost', debug=True)
+
+# (id, WBName, Username, Timestamp, data, canvas_image)

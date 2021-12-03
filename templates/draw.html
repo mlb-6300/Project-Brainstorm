@@ -119,9 +119,11 @@
                     <td><button id="pixel_minus" type="button" onclick="reduce_pixel()" style="width: 25px;">-</button></td>
                 </tr>
                 </table>
+                <label>Whiteboard Name</label><input id="wbname" type="text"><button id="save" onclick="save()">Save</button>
                 </fieldset>
                 <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
                 <script src=" {{ url_for('static', filename='tools.js') }}"></script>
+                <script src=" {{ url_for('static', filename='save.js') }}"></script>
 
     </body>
     {% endblock %}
