@@ -16,21 +16,6 @@ var fill_value = true;
 var stroke_value = false;
 // canvas data, vavlues for each tool will be stored, used in serializaton
 var canvas_data = {"pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": []}
-
-function init_canvas_data(c_data = {"pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": []}){
-    //alert(c_data);
-    canvas_data = JSON.parse(c_data);
-}
-
-function make_base(image){
-    alert(image)
-    base_image = new Image();
-    base_image.source = image; 
-    base_image.onload = function(){
-        ctx.drawImage(base_image, 0, 0);
-    }
-}
-
                         
 // function for changing color value based on palette 
 function color(color_value){

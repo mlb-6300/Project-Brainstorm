@@ -163,10 +163,7 @@ def load():
             c_data = db_manger.find_drawing(uuid)
             if len(c_data) > 0:
                 c_data = c_data
-                image = c_data
                 form = save_form()
-                # print(c_data)
-                # print(c_data)
                 return render_template('draw.html', form=form, data=c_data)
                 # pass c_data to draw
             else:
@@ -190,10 +187,6 @@ def messageReceived(methods=['GET', 'POST']):
 def handle_my_custom_event(json, methods=['GET', 'POST']):
     print('received my event: ' + str(json))
     socketio.emit('my response', json, callback=messageReceived)
-
-
-# @app.route('/save', methods=['GET','POST'])
-# def save():
 
 
 if __name__ == '__main__':

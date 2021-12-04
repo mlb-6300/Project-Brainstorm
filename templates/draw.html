@@ -154,19 +154,15 @@
                 <script src=" {{ url_for('static', filename='tools.js') }}"></script>
                 {% if data %}
                 <script>
-                    make_base('{{ data[0][1] }}');
-                    init_canvas_data('{{ data[0][0]|tojson }}');
-                    
+                     var canvas = document.getElementById("paint");
+                     var ctx = canvas.getContext("2d");
+                        var image = new Image();
+                        image.onload = function() {
+                        ctx.drawImage(image, 0, 0);
+                        };
+                        image.src = '{{ data[0][1] }}';
                 </script>
                 {% endif %}
-                {% if not data %}
-                <script>
-                    init_canvas_data();
-                </script>
-                {% endif %}
-
-                
-
     </body>
     {% endblock %}
 </html>
