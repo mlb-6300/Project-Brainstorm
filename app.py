@@ -11,12 +11,14 @@ from register_user import registerUserForm
 from login import login_form
 from load_form import load_form
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_socketio import SocketIO
 import uuid
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'good_ol_secret_key'
 # makes sure CSRF doesnt go out of context
 csrf.CSRFProtect(app)
+socketio = SocketIO(app)
 
 # password hashing method
 method = 'sha256'
@@ -113,7 +115,8 @@ def edit_profile():
     # setting up default fields for user data
     if request.method == 'GET':
         form = edit_profile_form(
-            formdata=MultiDict({'first_name': g.user[4], 'last_name': g.user[5], 'dob': g.user[6], 'gender': g.user[7]}))
+            formdata=MultiDict(
+                {'first_name': g.user[4], 'last_name': g.user[5], 'dob': g.user[6], 'gender': g.user[7]}))
         return render_template("edit_profile.html", form=form)
     else:
         form = edit_profile_form(request.form)
@@ -132,11 +135,9 @@ def edit_profile():
         return render_template("edit_profile.html", form=form)
 
 
-
-
 # page for drawing
 @app.route('/draw', methods=['GET', 'POST'])
-def draw():  
+def draw():
     if request.method == 'GET':
         form = save_form()
         return render_template('draw.html', form=form)
@@ -166,7 +167,7 @@ def load():
                 form = save_form()
                 # print(c_data)
                 # print(c_data)
-                return render_template('draw.html', form = form, data=c_data)
+                return render_template('draw.html', form=form, data=c_data)
                 # pass c_data to draw
             else:
                 pass
@@ -174,6 +175,22 @@ def load():
             return redirect(url_for('home'))
     else:
         return redirect(url_for('login'))
+
+
+@app.route('/session')
+def sessions():
+    return render_template('session.html')
+
+
+def messageReceived(methods=['GET', 'POST']):
+    print('message was received!!!')
+
+
+@socketio.on('my event')
+def handle_my_custom_event(json, methods=['GET', 'POST']):
+    print('received my event: ' + str(json))
+    socketio.emit('my response', json, callback=messageReceived)
+
 
 # @app.route('/save', methods=['GET','POST'])
 # def save():
