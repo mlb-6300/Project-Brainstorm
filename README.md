@@ -28,6 +28,7 @@ restraints, it was more effective to just have unique GUID stored for each white
 Also, we were hoping to have a chat room functionality, but as a result of our group size decreasing from 4 to 3, we
 had to cut out some features we deemed low priority. With more time 
 
+
 * Who Did What
 Marc Boustani (mlb-6300)- Initial flask application setup, minor HTML/CSS styling, SQLite3 database setup, main whiteboard functionality, save/load functionality
 

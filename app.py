@@ -3,12 +3,13 @@ from datetime import datetime
 from flask import Flask, render_template, request, session, redirect, url_for, g, flash
 from werkzeug.datastructures import MultiDict
 from flask_wtf import csrf
-
+from save_form import save_form
 import database_mangement as db_manger
 from confirmIdentity import confirmIdentity
 from edit_profile_form import edit_profile_form
 from register_user import registerUserForm
 from login import login_form
+from load_form import load_form
 from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 
@@ -135,28 +136,44 @@ def edit_profile():
 
 # page for drawing
 @app.route('/draw', methods=['GET', 'POST'])
-def draw():
-    print('here')
+def draw():  
     if request.method == 'GET':
-        
-        return render_template('draw.html')
+        form = save_form()
+        return render_template('draw.html', form=form)
     if request.method == 'POST':
-        print('here')
-        wbname = request.form['wb_name']
-        data = request.json['save_cdata']
-        canvas_image = request.form['save_image']
-        id = request.form['id']
-        
-        db_manger.insert_drawing(id, wbname, g.user[1], data, canvas_image)
-        return redirect(url_for('index'))
+        form = save_form(request.form)
+        wbname = form['whiteboard_name'].data
+        tdata = form['data'].data
+        image = form['image'].data
+        UUID = form['UUID'].data
+        db_manger.insert_drawing(UUID, wbname, g.user[1], tdata, image)
+        return redirect(url_for('home'))
 
 
 @app.route('/load', methods=['GET', 'POST'])
 def load():
-    if request.method == 'GET':
-        return render_template('load.html')
-    if request.method == 'POST':
-        print("hey")
+    if g.user:
+        if request.method == 'GET':
+            form = load_form()
+            return render_template('load.html', form=form)
+        if request.method == 'POST':
+            form = load_form(request.form)
+            uuid = form['uuid'].data
+            c_data = db_manger.find_drawing(uuid)
+            if len(c_data) > 0:
+                c_data = c_data
+                image = c_data
+                form = save_form()
+                # print(c_data)
+                # print(c_data)
+                return render_template('draw.html', form = form, data=c_data)
+                # pass c_data to draw
+            else:
+                pass
+                # put error message for data not found
+            return redirect(url_for('home'))
+    else:
+        return redirect(url_for('login'))
 
 # @app.route('/save', methods=['GET','POST'])
 # def save():

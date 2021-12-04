@@ -4,6 +4,7 @@ import sqlite3
 
 conn = sqlite3.connect('userData.db')
 
+# creating the User table
 conn.execute(
     """
             CREATE TABLE IF NOT EXISTS Users(
@@ -19,15 +20,17 @@ conn.execute(
     """
 )
 
+# creating the Whiteboards table
 conn.execute(
     """
             CREATE TABLE IF NOT EXISTS Whiteboards(
-                id     text PRIMARY KEY,
+                id     text,
                 WBName TEXT NOT NULL,
                 Username TEXT NOT NULL,
                 Timestamp DATETIME NOT NULL,
                 data TEXT NOT NULL,
                 canvas_image TEXT NOT NULL, 
+                PRIMARY KEY (id),
                 FOREIGN KEY (Username) REFERENCES Users(Username)
             )
     """

@@ -1,5 +1,12 @@
+// Source code for general whiteboard functionality is modeled after:
+// https://github.com/nidhinp/Paintapp-Flask-PostgreSQL
+// code was built on extenstively to include save/load features with sqlite database interaction,
+// user authentication, extra styling. 
+
+// retrieving canvas from html form,
 var canvas = document.getElementById("paint");
 var ctx = canvas.getContext("2d");
+// getting dimensions of retrieved canvas
 var width = canvas.width;
 var height = canvas.height;
 var curX, curY, prevX, prevY;
@@ -7,7 +14,22 @@ var hold = false;
 ctx.lineWidth = 2;
 var fill_value = true;
 var stroke_value = false;
+// canvas data, vavlues for each tool will be stored, used in serializaton
 var canvas_data = {"pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": []}
+
+function init_canvas_data(c_data = {"pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": []}){
+    //alert(c_data);
+    canvas_data = JSON.parse(c_data);
+}
+
+function make_base(image){
+    alert(image)
+    base_image = new Image();
+    base_image.source = image; 
+    base_image.onload = function(){
+        ctx.drawImage(base_image, 0, 0);
+    }
+}
 
                         
 // function for changing color value based on palette 
@@ -220,11 +242,24 @@ function eraser(){
     }    
 }  
 
+// an attempt at save functionality, moved over into draw.html as embedded code
+/*
 function save(){
+    
     var wbname = document.getElementById("wbname").value;
     var data = JSON.stringify(canvas_data);
     var image = canvas.toDataURL();
     var uuid = uuidv4();
     alert("Your Whiteboard ID: " + uuid);
-    $.post('/draw', { "wb_name": wbname, "save_cdata": data, "save_image": image, "id" : uuid });
+    
+    $.ajax({
+        type: 'POST',
+        contentType: 'application/json',
+        wbname: document.getElementById("wbname").value,
+        data : JSON.stringify(canvas_data),
+        image: canvas.toDataURL(),
+        uuid = uuidv4(),
+        url : 'http://localhost:5000/draw'
+    })
 } 
+*/

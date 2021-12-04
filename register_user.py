@@ -3,7 +3,7 @@ from wtforms import StringField, SubmitField, SelectField, DateField, PasswordFi
 from wtforms.validators import DataRequired, ValidationError, Length, EqualTo
 import database_mangement as db_manger
 
-
+# flask wtf form for registering a new user 
 class registerUserForm(FlaskForm):
     username = StringField(label="Enter Your Username:", validators=[DataRequired(), Length(max=40)])
     password = PasswordField(label="Enter a Password:", validators=[DataRequired(), Length(max=40)], id='password')

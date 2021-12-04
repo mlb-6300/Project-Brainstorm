@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField, DateField, PasswordField, BooleanField
 from wtforms.validators import DataRequired, Length, ValidationError
 
-
+# flask_wtf form for editing the profile information of a user.
 class edit_profile_form(FlaskForm):
     password = PasswordField(label="Enter Your NEW Password:", validators=[Length(max=40)],
                              id='password')
