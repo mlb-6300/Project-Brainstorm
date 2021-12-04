@@ -16,6 +16,7 @@ def insert_user(username, password, first_name, last_name, dob, gender):
 def insert_drawing(id, name, user, data, canvas_image):
     con = sql.connect('userData.db')
     cur = con.cursor()
+    print("here")
     cur.execute("""
                 INSERT INTO Whiteboards
                 (id, WBName, Username, Timestamp, data, canvas_image)

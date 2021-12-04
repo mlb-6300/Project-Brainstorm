@@ -128,23 +128,27 @@ def edit_profile():
 # page for drawing
 @app.route('/draw', methods=['GET', 'POST'])
 def draw():
+    print('here')
     if request.method == 'GET':
+        
         return render_template('draw.html')
     if request.method == 'POST':
-        id = str(uuid.uuid4())
+        print('here')
         wbname = request.form['wb_name']
-        data = request.form['save_cdata']
+        data = request.json['save_cdata']
         canvas_image = request.form['save_image']
-
-        # db_manger.insert_drawing(id, wbname, user, data, canvas_image)
-
+        id = request.form['id']
+        
+        db_manger.insert_drawing(id, wbname, g.user[1], data, canvas_image)
         return redirect(url_for('index'))
 
 
 @app.route('/load', methods=['GET', 'POST'])
 def load():
-    return
-
+    if request.method == 'GET':
+        return render_template('load.html')
+    if request.method == 'POST':
+        print("hey")
 
 # @app.route('/save', methods=['GET','POST'])
 # def save():
@@ -152,5 +156,3 @@ def load():
 
 if __name__ == '__main__':
     app.run('localhost', debug=True)
-
-# (id, WBName, Username, Timestamp, data, canvas_image)

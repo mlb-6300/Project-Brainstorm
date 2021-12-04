@@ -8,6 +8,7 @@ ctx.lineWidth = 2;
 var fill_value = true;
 var stroke_value = false;
 var canvas_data = {"pencil": [], "line": [], "rectangle": [], "circle": [], "eraser": []}
+
                         
 // function for changing color value based on palette 
 function color(color_value){
@@ -220,12 +221,10 @@ function eraser(){
 }  
 
 function save(){
-   
-
     var wbname = document.getElementById("wbname").value;
     var data = JSON.stringify(canvas_data);
     var image = canvas.toDataURL();
-    alert("ATTEMPT TO POST REQUEST TO /DRAW");
-    $.post("/draw", { wb_name: wbname, save_cdata: data, save_image: image });
-    alert(wbname + " saved");
+    var uuid = uuidv4();
+    alert("Your Whiteboard ID: " + uuid);
+    $.post('/draw', { "wb_name": wbname, "save_cdata": data, "save_image": image, "id" : uuid });
 } 
