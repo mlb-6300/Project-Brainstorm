@@ -12,6 +12,14 @@
                 {{ form.submit() }}
             </div>
         </form>
+        List of whiteboards by User: {{ g.user[1] }}
+        <br>
+        {% for whiteboard in  user_wb %}
+            Whiteboard Name : {{ whiteboard[0] }}
+            <br>
+            UUID of Whiteboard : {{ whiteboard[2] }}
+            <br>
+        {% endfor %}
         <script src="http://code.jquery.com/jquery-1.8.3.js"></script>
         <script src=" {{ url_for('static', filename='load.js') }}"></script>
     </body>

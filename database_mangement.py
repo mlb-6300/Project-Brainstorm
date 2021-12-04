@@ -1,6 +1,7 @@
 import sqlite3 as sql
 from datetime import datetime
 
+
 # inserting a user into the database
 def insert_user(username, password, first_name, last_name, dob, gender):
     con = sql.connect('userData.db')
@@ -12,6 +13,7 @@ def insert_user(username, password, first_name, last_name, dob, gender):
                 (username, password, datetime.now(), first_name, last_name, dob, gender))
     con.commit()
     con.close()
+
 
 # inserting a drawing into the database
 def insert_drawing(id, name, user, data, canvas_image):
@@ -28,6 +30,7 @@ def insert_drawing(id, name, user, data, canvas_image):
     con.commit()
     con.close()
 
+
 # finding a drawing in the db by uudi
 def find_drawing(UUID):
     con = sql.connect('userData.db')
@@ -37,6 +40,17 @@ def find_drawing(UUID):
     rvalue = cur.fetchall()
     con.close()
     return rvalue
+
+
+def find_drawing_by_username(username):
+    con = sql.connect('userData.db')
+    cur = con.cursor()
+    cur.execute("""
+                    SELECT WBName, canvas_image, id FROM Whiteboards WHERE Username = (?)""", (username,))
+    rvalue = cur.fetchall()
+    con.close()
+    return rvalue
+
 
 # retrieving all users
 def get_all_users():
@@ -48,6 +62,7 @@ def get_all_users():
     con.close()
     return users
 
+
 # getting a unique username
 def get_unique_user(username):
     con = sql.connect('userData.db')
@@ -58,6 +73,7 @@ def get_unique_user(username):
     con.close()
     return user
 
+
 # getting a user by id
 def get_unique_user_by_id(id):
     con = sql.connect('userData.db')
@@ -67,6 +83,7 @@ def get_unique_user_by_id(id):
     user = cur.fetchall()
     con.close()
     return user
+
 
 # updating a user's profile info by id
 def update_user_by_id(id, pw, fn, ln, dob, gd):

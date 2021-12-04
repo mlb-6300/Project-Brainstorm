@@ -156,7 +156,8 @@ def load():
     if g.user:
         if request.method == 'GET':
             form = load_form()
-            return render_template('load.html', form=form)
+            data = db_manger.find_drawing_by_username(g.user[1])
+            return render_template('load.html', form=form, user_wb=data)
         if request.method == 'POST':
             form = load_form(request.form)
             uuid = form['uuid'].data
