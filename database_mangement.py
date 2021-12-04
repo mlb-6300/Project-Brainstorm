@@ -70,3 +70,4 @@ def update_user_by_id(id, pw, fn, ln, dob, gd):
         Gender = (?)
         WHERE id = (?);""", (pw, fn, ln, dob, gd, id))
     con.commit()
+    con.close()
