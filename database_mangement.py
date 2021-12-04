@@ -13,6 +13,7 @@ def insert_user(username, password, first_name, last_name, dob, gender):
     con.commit()
     con.close()
 
+
 def insert_drawing(id, name, user, data, canvas_image):
     con = sql.connect('userData.db')
     cur = con.cursor()
@@ -25,6 +26,7 @@ def insert_drawing(id, name, user, data, canvas_image):
                 (id, name, user, datetime.now(), data, canvas_image))
     con.commit()
     con.close()
+
 
 def get_all_users():
     con = sql.connect('userData.db')
@@ -40,7 +42,7 @@ def get_unique_user(username):
     con = sql.connect('userData.db')
     cur = con.cursor()
     cur.execute("""
-        SELECT * FROM Users where Username = (?)""", (username,))
+        SELECT * FROM Users where UPPER(Username) = (?)""", (str.upper(username),))
     user = cur.fetchall()
     con.close()
     return user
@@ -55,6 +57,7 @@ def get_unique_user_by_id(id):
     con.close()
     return user
 
+
 def update_user_by_id(id, pw, fn, ln, dob, gd):
     con = sql.connect('userData.db')
     cur = con.cursor()
@@ -67,4 +70,3 @@ def update_user_by_id(id, pw, fn, ln, dob, gd):
         Gender = (?)
         WHERE id = (?);""", (pw, fn, ln, dob, gd, id))
     con.commit()
-

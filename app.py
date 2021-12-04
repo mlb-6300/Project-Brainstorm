@@ -9,8 +9,7 @@ from confirmIdentity import confirmIdentity
 from edit_profile_form import edit_profile_form
 from register_user import registerUserForm
 from login import login_form
-from cryptography.fernet import Fernet
-
+from werkzeug.security import generate_password_hash, check_password_hash
 import uuid
 
 app = Flask(__name__)
@@ -18,10 +17,8 @@ app.config['SECRET_KEY'] = 'good_ol_secret_key'
 # makes sure CSRF doesnt go out of context
 csrf.CSRFProtect(app)
 
-# fernet will be used to encrypt the password
-# look up documentation, its pretty simple tbh
-key = Fernet.generate_key()
-f = Fernet(key)
+# password hashing method
+method = 'sha256'
 
 
 @app.before_request
@@ -50,8 +47,7 @@ def register():
         ln = form['last_name'].data
         dob = form['dob'].data
         un = form['username'].data
-        # pw = f.encrypt(str.encode(form['password'].data))
-        pw = form['password'].data
+        pw = generate_password_hash(form['password'].data, method=method)
         gd = form['gender'].data
         # insert into database
         db_manger.insert_user(un, pw, fn, ln, dob, gd)
@@ -72,7 +68,7 @@ def login():
         # retrieve user from database if exists
         user = db_manger.get_unique_user(username)
         # check if user exists and password matches
-        if len(user) > 0 and user[0][2] == password:
+        if len(user) > 0 and check_password_hash(user[0][2], password):
             # set up session with user_id (id column in db)
             session['user_id'] = user[0][0]
             # redirect to profile page
@@ -105,8 +101,7 @@ def confirm_identity():
     form = confirmIdentity()
     if form.validate_on_submit():
         password = form['password'].data
-        print(password)
-        if g.user[2] != password:
+        if not check_password_hash(g.user[2], password):
             return redirect(url_for('confirm_identity'))
         return redirect(url_for('edit_profile'))
     return render_template('confirm_identity.html', g=g, form=form)
@@ -115,14 +110,27 @@ def confirm_identity():
 @app.route('/edit_profile', methods=['GET', 'POST'])
 def edit_profile():
     # setting up default fields for user data
-    form = edit_profile_form(
-        formdata=MultiDict({'first_name': g.user[4], 'last_name': g.user[5], 'dob': g.user[6], 'gender': g.user[7]}))
-    if form.validate_on_submit():
-        # stuff to update the database
+    if request.method == 'GET':
+        form = edit_profile_form(
+            formdata=MultiDict({'first_name': g.user[4], 'last_name': g.user[5], 'dob': g.user[6], 'gender': g.user[7]}))
+        return render_template("edit_profile.html", form=form)
+    else:
+        form = edit_profile_form(request.form)
+        if form.validate_on_submit():
+            new_pw = generate_password_hash(form['password'].data, method=method)
+            fn = form['first_name'].data
+            ln = form['last_name'].data
+            dob = form['dob'].data
+            gd = form['gender'].data
+            # check for empty password string
+            if check_password_hash(new_pw, ''):
+                db_manger.update_user_by_id(g.user[0], g.user[2], fn, ln, dob, gd)
+            else:
+                db_manger.update_user_by_id(g.user[0], new_pw, fn, ln, dob, gd)
+            return redirect(url_for('profile'))
+        return render_template("edit_profile.html", form=form)
 
-        return redirect(url_for('profile'))
 
-    return render_template("edit_profile.html", form=form)
 
 
 # page for drawing

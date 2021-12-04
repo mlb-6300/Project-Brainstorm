@@ -8,13 +8,13 @@ conn.execute(
     """
             CREATE TABLE IF NOT EXISTS Users(
                 id       INTEGER PRIMARY KEY AUTOINCREMENT,
-                Username VARCHAR(40) UNIQUE NOT NULL,
-                Password VARCHAR(40) NOT NULL,
+                Username TEXT UNIQUE NOT NULL,
+                Password TEXT NOT NULL,
                 Created DATETIME NOT NULL,
-                First_Name VARCHAR(30) NOT NULL,
-                Last_Name VARCHAR (30) NOT NULL,
+                First_Name TEXT NOT NULL,
+                Last_Name TEXT NOT NULL,
                 DOB DATE NOT NULL,
-                Gender VARCHAR(25) NOT NULL
+                Gender TEXT NOT NULL
             )
     """
 )
@@ -23,8 +23,8 @@ conn.execute(
     """
             CREATE TABLE IF NOT EXISTS Whiteboards(
                 id     text PRIMARY KEY,
-                WBName VARCHAR(40)NOT NULL,
-                Username VARCHAR(40) NOT NULL,
+                WBName TEXT NOT NULL,
+                Username TEXT NOT NULL,
                 Timestamp DATETIME NOT NULL,
                 data TEXT NOT NULL,
                 canvas_image TEXT NOT NULL, 

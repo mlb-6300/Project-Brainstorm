@@ -8,8 +8,12 @@
         <div align="right">
             <a href="/"><b>Return to Main Page</b></a>
             |  <a href="/load"><b>Load a Whiteboard</b></a>
-            |  Hello, <a href='/profile'><b>{{ g.user[1] }}</b></a>
-            
+            {% if g.user %}
+                |  Hello, <a href='/profile'><b>{{ g.user[1] }}</b></a>
+            {% endif %}
+            {% if not g.user %}
+                |  <a href='/login'><b>Login Here</b></a>
+            {% endif %}
         </div>
         <hr>
         {% block content %}{% endblock %}

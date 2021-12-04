@@ -23,7 +23,7 @@
     <br>
     <form class="form-horizontal" method="POST" action= {{ url_for('edit_profile') }}>
         {{ form.csrf_token() }}
-        <p>Update your password below:</p>
+        <p>Update your password below: (OPTIONAL)</p>
          <div class="form-group">
              {{ form.password.label }}
              {{ form.password(class="form-control") }}
