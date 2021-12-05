@@ -6,13 +6,13 @@ use the provided GUID to either load back up the same space, or give the totally
 be able to work on the same space
 
 * A list of Python libraries you are using.
-- datetime
-- flask
-- flask-wtf
-- werkzeug.datastructures 
-- werkzeug.security
-- wtforms
-- sqlite3
+datetime
+flask
+flask-wtf
+werkzeug.datastructures 
+werkzeug.security
+wtforms
+sqlite3
 
 For Javascript - the uuid npm module is used, but you shouldn't have to npm install it, as it's included at the top of 'base.html'
 from cloudflare. If you run into issues here, please let us know.
