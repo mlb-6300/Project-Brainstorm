@@ -24,6 +24,7 @@ Additionally, we planned on possibly implementing some small feature games, but 
 from 4 members to 3, we had to cut out some functionalities we deemed a low priority.
 
 * Who Did What
+
 Marc Boustani (mlb-6300)- Initial flask application setup, minor HTML/CSS styling, SQLite3 database setup, main whiteboard functionality, save/load functionality
 
 Jake Himmel (jbh18g) - SQLite3 database setup, all user registration/login functionality including encrypting of passwords, editing
