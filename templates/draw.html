@@ -1,7 +1,7 @@
 <html>
     {% include "base.html" %}
     {% block content %}
-
+    <!-- source for uuid: https://www.npmjs.com/package/uuid#uuidv4options-buffer-offset -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
     <!-- loading pencil tool on startup - user can begin drawing immediately without selecting tool -->
