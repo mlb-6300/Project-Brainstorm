@@ -6,13 +6,13 @@ use the provided GUID to either load back up the same space, or give the totally
 be able to work on the same space
 
 * A list of Python libraries you are using.
-datetime
-flask
-flask-wtf
-werkzeug.datastructures 
-werkzeug.security
-wtforms
-sqlite3
+-datetime
+-flask
+-flask-wtf
+-werkzeug.datastructures 
+-werkzeug.security
+-wtforms
+-sqlite3
 
 For Javascript - the uuid npm module is used, but you shouldn't have to npm install it, as it's included at the top of 'base.html'
 from cloudflare. If you run into issues here, please let us know.
@@ -36,4 +36,4 @@ Mark Kovalyus - Extensive HTML/CSS styling on all pages, implementation of chat 
 
 GitHub Repo: https://github.com/mlb-6300/Project-Brainstorm
 
-Video Demonstration: 
+Video Demonstration: https://youtu.be/2rAIbNE08IQ
